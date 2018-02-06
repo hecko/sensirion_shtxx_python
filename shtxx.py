@@ -4,6 +4,9 @@ import sys
 import struct
 import argparse
 
+__author__ = "Marcel Hecko"
+__email__ = "maco@blava.net"
+
 def sht2x_temp(raw):
     return -46.85 + 175.72 * raw / 65536
 
