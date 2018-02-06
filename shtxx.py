@@ -7,17 +7,22 @@ import argparse
 __author__ = "Marcel Hecko"
 __email__ = "maco@blava.net"
 
+
 def sht2x_temp(raw):
     return -46.85 + 175.72 * raw / 65536
+
 
 def sht3x_temp(raw):
     return -45 + 175 * float(raw) / (2**16 - 1)
 
+
 def sht2x_rh(raw):
     return -6 + 125 * raw / 65536
 
+
 def sht3x_rh(raw):
     return 100 * float(raw) / (2**16 - 1)
+
 
 def show_data(temp_in, rh_in):
     for unp in ['>H', '<H']:
@@ -37,10 +42,12 @@ def show_data(temp_in, rh_in):
         print("{} {} Rel humidity: {:.2f}".format(unp, rh_in, rh))
         print('--------------')
 
+
 def main():
     show_data(args.temp, args.rh)
     print("Switching temp input data for rh and vice versa")
     show_data(args.rh, args.temp)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
