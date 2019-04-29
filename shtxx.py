@@ -13,7 +13,7 @@ def sht2x_temp(raw):
 
 
 def sht3x_temp(raw):
-    return -45 + 175 * float(raw) / (2**16 - 1)
+    return -45 + 175 * float(raw) / (2 ** 16 - 1)
 
 
 def sht2x_rh(raw):
@@ -21,11 +21,11 @@ def sht2x_rh(raw):
 
 
 def sht3x_rh(raw):
-    return 100 * float(raw) / (2**16 - 1)
+    return 100 * float(raw) / (2 ** 16 - 1)
 
 
 def show_data(temp_in, rh_in):
-    for unp in ['>H', '<H']:
+    for unp in [">H", "<H"]:
         t_raw = struct.unpack(unp, bytes.fromhex(temp_in))[0]
         rh_raw = struct.unpack(unp, bytes.fromhex(rh_in))[0]
         if args.sht2x:
@@ -40,7 +40,7 @@ def show_data(temp_in, rh_in):
             sys.exit("Problem")
         print("{} {}  Temperature: {:.2f}".format(unp, temp_in, t))
         print("{} {} Rel humidity: {:.2f}".format(unp, rh_in, rh))
-        print('--------------')
+        print("--------------")
 
 
 def main():
@@ -49,12 +49,16 @@ def main():
     show_data(args.rh, args.temp)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('-2', '--sht2x', action='store_true', help="SHT2x")
-    parser.add_argument('-3', '--sht3x', action='store_true', help="SHT3x")
-    parser.add_argument('-t', '--temp', action='store', help="Temp HEX")
-    parser.add_argument('-r', '--rh', action='store', help="RH HEX")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser.add_argument("--sht2x", action="store_true", help="SHT2x")
+    parser.add_argument("--sht3x", action="store_true", help="SHT3x")
+    parser.add_argument("--temp", action="store", required=True, help="Temp HEX")
+    parser.add_argument("--rh", action="store", required=True, help="RH HEX")
     args = parser.parse_args()
+
+    if not args.sht2x and not args.sht3x:
+        print("Run --help")
+        sys.exit(1)
 
     main()
